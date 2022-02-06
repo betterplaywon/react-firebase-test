@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { authService, firebaseInstance } from './services/firebase';
+import { auth, firebaseInstance } from './services/firebase';
 
 const App = () => {
   const [email, setEmail] = useState('');
@@ -24,10 +24,10 @@ const App = () => {
       let data;
       if (newAccount) {
         /// 새로운 유저 생성
-        data = await authService.createUserWithEmailAndPassword(email, password);
+        data = await auth.createUserWithEmailAndPassword(email, password);
       } else {
         // 회원가입 한 유저가 로그인시 이벤트
-        data = await authService.signInWithEmailAndPassword(email, password);
+        data = await auth.signInWithEmailAndPassword(email, password);
       }
       console.log(data);
     } catch (error) {
@@ -44,12 +44,12 @@ const App = () => {
     if (name === 'google') {
       provider = new firebaseInstance.auth.GoogleAuthProvider();
     }
-    const data = await authService.signInWithPopup(provider);
+    const data = await auth.signInWithPopup(provider);
     console.log(data);
   };
 
   const onLogOutClick = () => {
-    authService.signOut();
+    auth.signOut();
   };
 
   return (
